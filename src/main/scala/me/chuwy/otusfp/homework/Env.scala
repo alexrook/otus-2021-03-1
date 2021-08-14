@@ -40,7 +40,6 @@ object Env extends IOApp.Simple {
 
   }
 
-
   def run: IO[Unit] = {
     for {
       s <- CounterService.apply
