@@ -12,20 +12,20 @@ import scala.concurrent.ExecutionContext.global
 
 object Restful {
 
-  def counterRoutes(cs: CounterService[IO]): HttpRoutes[IO] =
+  def counterRoute(cs: CounterService[IO]): HttpRoutes[IO] =
     HttpRoutes.of[IO] {
       case GET -> Root / "counter" => Ok(cs.count())
     }
 
-  def slowStream: HttpRoutes[IO] =
+  def slowStreamRoute: HttpRoutes[IO] =
     HttpRoutes.of[IO] {
       case GET -> Root / "slow" / LongVar(total) / IntVar(chunk) / IntVar(time) =>
         Ok(SlowStreamService.slowStream(total, chunk, time))
     }
 
   def httpApp(cs: CounterService[IO]): HttpApp[IO] = Router(
-    "/" -> counterRoutes(cs),
-    "/" -> slowStream
+    "/" -> counterRoute(cs),
+    "/" -> slowStreamRoute
   ).orNotFound
 
   def builder(cs: CounterService[IO]): BlazeServerBuilder[IO] =
