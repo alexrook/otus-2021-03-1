@@ -16,7 +16,6 @@ object Env extends IOApp.Simple {
 
   object CounterService {
     def apply: IO[CounterService[IO]] = {
-      println("Creation")
       Ref[IO].of(0).map(v => CounterService(v))
     }
   }
